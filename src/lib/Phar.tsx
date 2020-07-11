@@ -20,9 +20,9 @@ const Phar: React.FC<PharIProps> = ({blockData, onChange})=> {
         setData({ ...data, text: e.target.value})
     }, [setData, onChange])
 
-    // const handleSave = ()=> {
-    //     onChange({...blockData, data})
-    // }
+    const handleSave = ()=> {
+        onChange({...blockData, data})
+    }
 
     const handleDiscard = ()=>{
         'ewwef'
@@ -31,11 +31,12 @@ const Phar: React.FC<PharIProps> = ({blockData, onChange})=> {
     return (<div className="reed-phar">
         <div className="reed-phar__content">
                 
-                    <textarea
-                        onChange={setValue}
-                        // onKeyUp={handleSave}
-                        value={data.text}
-                    />
+            <textarea
+                onChange={setValue}
+                onKeyUp={handleSave}
+                // value={data.text}
+                // escape={false}
+            >{data.text}</textarea>
             </div>
     </div>)
 }

@@ -1,0 +1,93 @@
+*{
+box-sizing: border-box;
+}
+
+textarea {
+    text-decoration: none;
+    outline: none;
+    border: none;
+    height: auto;
+    overflow: hidden;
+    display: block;
+    resize: none;
+    background-color: transparent;
+}
+.reed-phar {
+    .reed-phar__content {
+        line-height: 1.6em;
+        outline: none;
+        & > textarea {
+            text-align: justify; /* For Edge */
+            -moz-text-align-last: justify; /* For Firefox prior 58.0 */
+            text-align-last: justify;
+            white-space: normal;
+            width: 100%;
+            line-height: 1.6em;
+        }
+    }
+}
+
+.reed-delim {
+    .reed-delim__content {
+        line-height: 1.6em;
+        width: 100%;
+        text-align: center;
+        &::before {
+            display: inline-block;
+            content: "***";
+            font-size: 30px;
+            line-height: 65px;
+            height: 30px;
+            letter-spacing: 0.2em;
+        }
+    }
+}
+
+.reed-quote {
+    line-height: 1.6em;
+    margin:
+    //  30px 
+     40px;
+    .reed-quote__content {
+        color: rgb(117, 117, 117);
+        font-weight: 400;
+        // text-align: center;
+        &::before {
+            position: relative;
+            display: block;
+            content: '"';
+            font-size: 35px;
+            line-height: 65px;
+            height: 30px;
+            letter-spacing: 0.2em;
+            left: -20px;
+            top: -10px;
+        }
+        & > textarea {
+            width: 100%;
+            color: rgb(117, 117, 117);
+            font-size: 30px;
+        }
+
+
+    }
+}
+
+.reed-block {
+    .reed-block__content {
+        position: relative;
+        max-width: 650px;
+        margin: 0 auto;
+        -webkit-transition: background-color .15s ease;
+        transition: background-color .15s ease;
+        // &> * {
+            padding: 0.9em 0;
+        // }
+    }
+}
+
+.reed-block_active {
+    background-image: linear-gradient(17deg,rgba(243,248,255,.03) 43.45%,rgba(207,214,229,.27) 98%);
+    border-radius: 3px;
+}
+
