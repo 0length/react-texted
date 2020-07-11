@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect, Children, } from 'react'
+import React, { useState, useCallback, useEffect, Children, CSSProperties, memo, } from 'react'
 interface PharBlockData {
     data: {
-        text: string
+        text: Array<{text: string, style:CSSProperties}>
     }
 }
 
@@ -12,12 +12,17 @@ interface PharIProps {
 const Phar: React.FC<PharIProps> = ({blockData, onChange})=> {
 
     const [data, setData] = useState<any>(blockData.data)
+// console.log(data);
 
-    const setValue = useCallback((e)=>{
-        var offset = e.target.offsetHeight - e.target.clientHeight
-        e.target.style.height = 'auto'
-        e.target.style.height = e.target.scrollHeight + offset + 'px'
-        setData({ ...data, text: e.target.value})
+    const setValue = useCallback((value: string, idx: number)=>{
+        const newData=data.text
+        newData[idx] = {...data.text[idx], text: value}
+        setData({
+            ...data,
+            text: newData
+        })
+        // console.log(data);
+        onChange({...blockData, data})
     }, [setData, onChange])
 
     const handleSave = ()=> {
@@ -29,16 +34,50 @@ const Phar: React.FC<PharIProps> = ({blockData, onChange})=> {
     }
 
     return (<div className="reed-phar">
-        <div className="reed-phar__content">
+        <div
+            className="reed-phar__content"
+            contentEditable={true}
+            suppressContentEditableWarning={true}
+        >
                 
-            <textarea
-                onChange={setValue}
-                onKeyUp={handleSave}
+            {data.text.map((subsection: {text: string, styles: CSSProperties}, idx: number)=>(<Textarea
+                key={idx}
+                setValue={setValue}
+                handleSave={handleSave}
                 // value={data.text}
                 // escape={false}
-            >{data.text}</textarea>
+                idx={idx}
+                style={subsection.styles}
+                text={subsection.text}
+
+            />))}
             </div>
     </div>)
 }
 
-export default React.memo(Phar)
+const Textarea = memo(({style, idx, text, handleSave, setValue}: any) => {
+
+    const handleOnChange = useCallback((e)=>{
+        setValue(e.target.innerHTML, idx)
+        console.log(e);
+            
+    }, [setValue])
+
+    const handleResize = (e: any)=>{
+        var offset = e.target.offsetHeight - e.target.clientHeight
+        e.target.style.height = 'auto'
+        e.target.style.height = e.target.scrollHeight + offset + 'px'
+    }
+    const handleOnKeyUp = useCallback(handleSave, [handleSave])
+
+    return (<><div
+        // onKeyUp={handleOnKeyUp}
+        onInput={handleOnChange}
+        // onKeyPress={handleResize}
+        // onBlur={handleResize}
+        // onKeyDown={handleOnChange}
+        style={style}
+        dangerouslySetInnerHTML={(()=>({__html: text}))()}
+    /></>)
+})
+export default memo(Phar)

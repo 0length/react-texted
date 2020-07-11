@@ -36,7 +36,7 @@ const Quote: React.FC<QuoteIProps> = ({blockData, onChange})=> {
                 onKeyUp={handleSave}
                 // value={data.text}
             > */}
-                {data.text.split("").map((char: string)=><span onClick={adCursor}>{char}</span>)}
+                {data.text.split("").map((char: string, idx: number)=><span key={idx} onClick={adCursor}>{char}</span>)}
                 {/* </textarea> */}
         </div>
     </div>)
